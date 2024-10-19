@@ -1,0 +1,120 @@
+<%- include('./partials/header') %>
+    <%- include('./partials/sidebar',{username:username}) %>
+        <div class="content">
+            <%- include('./partials/navbar') %>
+                <div class="container-fluid pt-4 px-4">
+                    <div class="row">
+                        <form class="form " action="/profile/data" method="post" enctype="multipart/form-data">
+            
+                            <div class="col-sm-3">
+
+
+                                <!--left col-->
+                                <div class="text-center">
+                                    <img src="/upload/<%= profile_data.image %>"
+                                        class="avatar img-circle img-thumbnail" alt="avatar">
+                                    <!-- <h6>Upload a different photo...</h6> -->
+                                    <input type="file" name="image" class="text-center center-block file-upload" style="<%= is_edit == false ?'display:none'  : '' %>">
+                                </div>
+                                </hr><br>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">User Name</div>
+                                </div>
+                                <h6 class="mb-0">
+                                    <% if(username!=undefined) { %>
+                                        <%= username %>
+                                            <% } else { %>
+                                                Default
+                                                <% } %>
+                                </h6>
+
+                            </div><!--/col-3-->
+                            <div class="col-sm-6">
+
+
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="home">
+                                        <hr>
+
+                                        <div class="form-group">
+
+                                            <div class="col-xs-6">
+                                                <label for="first_name">
+                                                    <h4>First name</h4>
+                                                </label>
+                                                <input type="text" class="form-control " name="firstname" id="first_name"
+                                                    placeholder="first name" value="<%= profile_data.firstname %>" <%= is_edit == false ?'readonly'  : '' %> title="enter your first name if any.">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <div class="col-xs-6">
+                                                <label for="last_name">
+                                                    <h4>Last name</h4>
+                                                </label>
+                                                <input type="text" class="form-control" name="lastname" id="last_name"
+                                                    placeholder="last name" value="<%= profile_data.lastname %>" title="enter your last name if any." <%= is_edit == false ?'readonly'  : '' %> >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <div class="col-xs-6">
+                                                <label for="phone">
+                                                    <h4>Gender</h4>
+                                                </label>
+                                                <input type="text" class="form-control" name="gender" id="phone"
+                                                    placeholder="enter phone" value="<%= profile_data.gender %>" title="enter your phone number if any." <%= is_edit == false ?'readonly'  : '' %> >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-6">
+                                                <label for="mobile">
+                                                    <h4>Mobile</h4>
+                                                </label>
+                                                <input type="text" class="form-control" value="<%= profile_data.mobile %>" name="mobile" id="mobile"
+                                                    placeholder="enter mobile number"
+                                                    title="enter your mobile number if any." <%= is_edit == false ?'readonly'  : '' %> >
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <div class="col-xs-6">
+                                                <label for="email">
+                                                    <h4>Email</h4>
+                                                </label>
+                                                <input type="email" class="form-control" name="email" id="email"
+                                                    placeholder="you@email.com" value="<%= useremail %>" readonly title="enter your email.">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <div class="col-xs-6">
+                                                <label for="email">
+                                                    <h4>Location</h4>
+                                                </label>
+                                                <input type="text" class="form-control" id="location"
+                                                value="<%= profile_data.location %>"
+                                                    placeholder="somewhere"  name="location" title="enter a location" <%= is_edit == false ?'readonly'  : '' %> >
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <br>
+                                                <button class="btn btn-lg btn-success" type="submit" style="<%= is_edit == false ?'display:none'  : '' %>"><i
+                                                        class="glyphicon glyphicon-ok-sign" ></i> Save</button>
+                                                        <a class="btn btn-lg btn-info"
+                                                        href="/editprofile" style="<%= is_edit == false ? ''  : 'display:none' %>">Edit</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div><!--/tab-pane-->
+                </div><!--/tab-content-->
+        </div><!--/col-9-->
+        <!--/row-->
+        <%- include('./partials/footer') %>

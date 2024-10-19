@@ -1,0 +1,126 @@
+<%- include('./partials/header') %>
+    <%- include('./partials/sidebar',{username:username}) %>
+        <div class="content">
+            <%- include('./partials/navbar') %>
+                <div class="container-fluid pt-4 px-4">
+                    <div class="row g-4">
+                        <div class="col-sm-12 col-xl-4">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">Sub Category</h6>
+                                <form
+                                    action="<%= (subcatedit)?'/updatesubcategory/'+subcatedit._id:'/subcategory/savedata'%>"
+                                    method="post">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Category</label>
+                                        <select name="cat_id" class="form-select mb-3"
+                                            aria-label="Default select example">
+                                            <option value="">select Category</option>
+                                            <% catData.forEach((i)=> {
+                                                var selected = ( subcatedit && i._id.toString() ==
+                                                subcatedit.cat_id.toString()) ? 'selected' : '';
+                                                %>
+                                                <option value="<%= i._id %>" <%=selected %>> <%= i.categoryname %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">SubCategory Name:-</label>
+                                        <input type="text" class="form-control" name="name" id="exampleInputEmail1"
+                                            value="<%= (subcatedit)? subcatedit.name: '' %>"
+                                            aria-describedby="emailHelp">
+                                    </div>
+                                    <% if(message){ %>
+                                        <div class="alert <%= message_class %>" role="alert">
+                                            <%= message %>
+                                        </div>
+                                        <% } %>
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xl-8">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">SubCategory Table</h6>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-1">
+                                            <select id="dispcat_id" name="dispcat_id" class="form-select mb-3"
+                                                aria-label="Default select example">
+                                                <option value="">select Category</option>
+                                                <% catData.forEach((i)=> { %>
+                                                    <option value="<%= i._id %>">
+                                                        <%= i.categoryname %>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <form class="d-none d-md-flex ms-4">
+                                            <input class="form-control bg-dark border-0" id="search" name="search" type="search"
+                                                placeholder="Search">
+                                        </form>
+
+                                    </div>
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr align="center">
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">SubCategory Name</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="result">
+                                            <% if(AllSubCat) { %>
+                                                <% AllSubCat.forEach((item)=>{ %>
+                                                    <tr align="center">
+                                                        <td>
+                                                            <%= item._id %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.cat_id.categoryname %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.name %>
+                                                        </td>
+                                                        <td>
+                                                            <a class="btn btn-success"
+                                                                href="/subcategortedit/<%= item._id %>">Edit</a>
+
+                                                            <a class="btn btn-danger"
+                                                                href="/subcat/deletedata/<%= item._id %>"
+                                                                data-toggle="modal" data-target="#exampleModal">Delete
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                                        <% } %>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid pt-4 px-4">
+                        <div class="bg-secondary rounded-top p-4">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 text-center text-sm-start">
+                                    © <a href="#">Your Site Name</a>, All Right Reserved.
+                                </div>
+                                <div class="col-12 col-sm-6 text-center text-sm-end">
+
+                                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                                    <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%- include('./partials/footer') %>
+                    <script src="../views/script.js"></script>

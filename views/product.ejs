@@ -1,0 +1,80 @@
+<%- include('./partials/header') %>
+    <%- include('./partials/sidebar',{username:username}) %>
+        <div class="content">
+            <%- include('./partials/navbar') %>
+                <div class="container-fluid pt-4 px-4">
+                    <div class="row g-4">
+                        <div class="col-12 col-xl-12">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">Product</h6>
+                                <form action="<%= (productedit)?'/updateproductdata/'+productedit._id:'/allproductdata'%>" method="post" enctype="multipart/form-data">
+  
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Category</label>
+                                        <select name="cat_id" id="main_cat_id"class="form-select mb-3"
+                                            aria-label="Default select example">
+                                            <option value="">select Category</option>
+                                            <% maincat.forEach((i)=> { 
+                                                var selected = ( productedit && i._id.toString() ==
+                                                productedit.cat_id.toString()) ? 'selected' : '';
+
+                                                %>
+                                                <option value="<%= i._id %>" <%=selected %>>
+                                                    <%= i.categoryname %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">SubCategory</label>
+                                        <select name="sub_cat_id" id="sub_cat_id" class="form-select mb-3"
+                                            aria-label="Default select example">
+                                            <option value="">select SubCategory</option>
+                                             <% pdata.forEach((i)=>{
+                                                var selected = ( productedit && i._id.toString() ==
+                                                productedit.sub_id.toString()) ? 'selected' : '';
+                                                %>
+                                                <option value="<%= i._id %>" <%=selected %>>
+                                                    <%= i.name %> 
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Product Name:-</label>
+                                        <input type="text" class="form-control" value="<%= (productedit)? productedit.pname:'' %>" name="pname" id="exampleInputEmail1"  aria-describedby="emailHelp">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Product Price:-</label>
+                                        <input type="text" class="form-control" value="<%= (productedit)? productedit.price:'' %>" name="price" id="exampleInputEmail1"  aria-describedby="emailHelp">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Product Details:-</label>
+                                        <input type="text" class="form-control" value="<%= (productedit)? productedit.description:'' %>" name="detail" id="exampleInputEmail1"  aria-describedby="emailHelp">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Product Image:-</label>
+                                        <input multiple type="file" name="image" id="image"  class="form-control" aria-describedby="emailHelp">
+                                    </div>
+                                    <div class="mb-3">
+                                        <% if(productedit) { %>
+                                        <% productedit.image.forEach((item,idx)=>{ %>
+                                            <img src="/product/<%= item %>" width="70"height="70" alt="<%= item.image %>">
+                                            <a 
+                                                                href="/productImageDelete/<%= productedit._id %>/<%= idx %>"
+                                                                data-toggle="modal" data-target="#exampleModal">Delete
+                                                            </a>
+                                       <% }) %>
+                                       <% } %>
+                                    </div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <%- include('./partials/footer') %>
+        <script src="../views/product_script.js"></script>

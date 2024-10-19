@@ -1,0 +1,149 @@
+<!-- Table Start -->
+<%- include('./partials/header') %>
+    <%- include('./partials/sidebar',{username:username}) %>
+        <div class="content">
+            <%- include('./partials/navbar') %>
+                <div class="container-fluid pt-4 px-4">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">Product Table</h6>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr align="center">
+                                                <th scope="col">Product Id</th>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">SubCategory</th>
+                                                <th scope="col">Product Name</th>
+                                                <th scope="col">Product Price</th>
+                                                <th scope="col">Product Detail</th>
+                                                <th scope="col">Product Image</th>
+                                                <th scope="col">Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if(productdata) { %>
+                                                <% productdata.forEach((item)=>{ %>
+                                                    <tr align="center">
+                                                        <td>
+                                                            <%= item._id %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.cat_id.categoryname %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.sub_id.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.pname %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.price %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.description %>
+                                                        </td>
+                                                        <td>
+                                                            <a data-bs-toggle="modal" style="cursor: pointer;"
+                                                                data-product="<%= item._id %>"
+                                                                data-product_name="<%= item.pname %>"
+                                                                data-bs-target="#staticBackdrop"><img
+                                                                    src="/product/<%= item.image[0] %>" width="70"
+                                                                    height="70" alt="<%= item.image %>"></a>
+                                                        </td>
+                                                        <td>
+                                                            <a class="btn btn-success"
+                                                                href="/productEdit/<%= item._id %>">Edit</a>
+
+                                                            <a class="btn btn-danger"
+                                                                href="/productDelete/<%= item._id %>"
+                                                                data-toggle="modal" data-target="#exampleModal">Delete
+                                                            </a>
+                                                        </td>
+
+                                                    </tr>
+                                                <% }) %>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container-fluid pt-4 px-4">
+                    <div class="bg-secondary rounded-top p-4">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 text-center text-sm-start">
+                                © <a href="#">Your Site Name</a>, All Right Reserved.
+                            </div>
+                            <div class="col-12 col-sm-6 text-center text-sm-end">
+                                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                                Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                                <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel_title" style="color: black;"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="carouselExampleFade" class="carousel slide carousel-fade">
+                            <div class="carousel-inner" id="carouselImages">
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const myModalEl = document.getElementById('staticBackdrop')
+            myModalEl.addEventListener('show.bs.modal', event => {
+                var product = $(event.relatedTarget).data('product'),
+                    product_name = $(event.relatedTarget).data('product_name');
+                $('#staticBackdropLabel_title').html(product_name);
+                fetch(`/ajax_productdetail?product_id=${product}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        let img_html = ``;
+                        data.image.forEach((e, i) => {
+                            let active = i == 0 ? 'active' : '';
+                            img_html += `<div class="carousel-item ${active}" style="justify-content: center; align-items:center">
+                                    <img src="./product/${e}" alt="..." height=400px width=500px class='center' ">
+                                </div>`;
+                        })
+
+                        $("#carouselImages").html(img_html);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+            })
+
+        </script>
+        <%- include('./partials/footer') %>
+
+            <!-- Table End -->
